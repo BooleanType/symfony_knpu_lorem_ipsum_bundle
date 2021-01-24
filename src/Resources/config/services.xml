@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Explanation: https://symfony.com/doc/current/service_container/autowiring.html#using-aliases-to-enable-autowiring -->
+        <service id="knpu_lorem_ipsum.knpu_ipsum" class="KnpU\LoremIpsumBundle\KnpUIpsum" public="true">
+            <argument type="service" id="knpu_lorem_ipsum.word_provider" />
+            <argument /> <!-- unicorns_are_real -->
+            <argument /> <!-- min_sunshine -->
+        </service>
+        <service id="KnpU\LoremIpsumBundle\KnpUIpsum" alias="knpu_lorem_ipsum.knpu_ipsum" public="false" />
+        
+        <service id="knpu_lorem_ipsum.knpu_word_provider" class="KnpU\LoremIpsumBundle\KnpUWordProvider" />
+        <service id="knpu_lorem_ipsum.word_provider" alias="knpu_lorem_ipsum.knpu_word_provider" public="false" />
+    </services>
+</container>
