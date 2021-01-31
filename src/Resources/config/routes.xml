@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing
+        http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <!-- 
+        Нам приходится опр-ять ат-т "path", поскольку он обяз-ен (команда bin/console debug:router
+        это показывает - выдаёт ошибку в случае отс-ия ат-та). Но юзер сам опр-яет путь
+        (в проекте файл, где я как юзер бандла опр-яю путь, - это "knpu_lorem_ipsum.yaml",
+        в коллекции под именем _lorem_ipsum), поэтому просто установим здесь path="/".
+    -->
+    <route id="knpu_lorem_ipsum_api" controller="knpu_lorem_ipsum.controller.ipsum_api_controller::index" path="/" >
+        <!-- settings -->
+    </route>
+</routes>

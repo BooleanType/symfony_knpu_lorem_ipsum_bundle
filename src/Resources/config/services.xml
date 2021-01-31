@@ -15,5 +15,87 @@
         
         <service id="knpu_lorem_ipsum.knpu_word_provider" class="KnpU\LoremIpsumBundle\KnpUWordProvider" />
         <service id="knpu_lorem_ipsum.word_provider" alias="knpu_lorem_ipsum.knpu_word_provider" public="false" />
+        
+        <service id="knpu_lorem_ipsum.controller.ipsum_api_controller" class="KnpU\LoremIpsumBundle\Controller\IpsumApiController" public="true">
+            <call method="setContainer">
+                <argument type="service" id="Psr\Container\ContainerInterface"/>
+            </call>
+            <tag name="container.service_subscriber"/>
+            <argument type="service" id="knpu_lorem_ipsum.knpu_ipsum"/>
+        </service>
     </services>
 </container>
+
+<!--
+Just would like to notice 3 cases (I'm working on Symfony 5.2.2).
+1. If I don't extend IpsumApiController from AbstractController, the following conf in "services.xml" works for me:
+
+<service id="knpu_lorem_ipsum.controller.ipsum_api_controller" class="KnpU\LoremIpsumBundle\Controller\IpsumApiController" public="true">
+    <argument type="service" id="knpu_lorem_ipsum.knpu_ipsum"/>
+</service>
+
+2. But in the bundle described in article, we need to use json() method (ie, to extend from AbstractController). 
+So, the following conf works:
+
+<service id="knpu_lorem_ipsum.controller.ipsum_api_controller" class="KnpU\LoremIpsumBundle\Controller\IpsumApiController" public="true">
+    <call method="setContainer">
+        <argument type="service" id="Psr\Container\ContainerInterface"/>
+    </call>
+    <tag name="container.service_subscriber"/>
+    <argument type="service" id="knpu_lorem_ipsum.knpu_ipsum"/>
+</service>
+
+*** FAQ ***
+*** Start Question 1 ***
+- Зачем <tag name="container.service_subscriber"/> ?
+
+- So, AbstractController by def gets access to a container, but it's not the MAIN container, it's actually a mini-container - 
+via a service subscriber (потому что AbstractController так реализован - он явл-ся сервис-сабскрайбером 
+(https://symfony.com/doc/current/service_container/service_subscribers_locators.html#including-services)). 
+About service subscribers here - https://symfonycasts.com/screencast/symfony4-doctrine/service-subscriber ; here about AbstractController -
+https://symfonycasts.com/screencast/deep-dive - it is a part of the "controller resolver" chapters.
+
+Так контроллер IpsumApiController наследует AbstractController, IpsumApiController тоже должен быть сервис-сабскрайбером. 
+Normally, to be a service subscriber, you must implement ServiceSubscriberInterface on your controller class and... you're done! AbstractController implements this... 
+so just by extending it, your controller is implementing it. So, what's the problem? In reality, if you want your service to be a "service subscriber", 
+you need to implement that interface AND tag your service with container.service_subscriber. In *normal application code*, we don't need to manually add 
+that tag because "autoconfigure" takes care of it for us: Symfony automatically adds that tag when it sees that our controller service implements the interface.
+
+However, in "bundle land", we don't use autowiring or autoconfiguration (to keep things explicit). And so, it's up to *you* to add this tag.
+Подтвержд-е тому - док-тация (https://symfony.com/doc/current/service_container/service_subscribers_locators.html#aliased-services):
+By default, autowiring is used to match a service type to a service from the service container. If you don’t use autowiring or need to add a non-traditional 
+service as a dependency, use the container.service_subscriber tag to map a service type to a service.
+
+Объяснение здесь - http://disq.us/p/280zwil .
+*** End Question 1 ***
+
+*** Start Question 2 ***
+- Зачем <call... ?
+- We need to set container, 'cause setContainer() is annotated as required in AbstractController.
+Normally, a controller is autowired and this call is configured *for* you because AbstractController has a setContainer() method 
+with this type-hint AND that method has an @required above it, which tells the autowiring system to add a call for it.
+
+Объяснение здесь - http://disq.us/p/284iscc .
+*** End Question 2 ***
+
+*** Start Question 3 ***
+- Почему, если не указать контроллеру тег "container.service_subscriber", то возникает предупреждение "Since symfony/dependency-injection 5.1: The "Psr\Container\ContainerInterface" 
+autowiring alias is deprecated. Define it explicitly in your app if you want to keep using it. It is being referenced by the "knpu_lorem_ipsum.controller.ipsum_api_controller" 
+service."?
+- Если не указать тег, Симфони думает, что мы пытаемся загрузить ГЛАВНЫЙ контейнер в <call..., что запрещено (об этом говорит предупрежд-е).
+Но без <call... нельзя обойтись в данном случае (см. вопрос 2 выше).
+So, in order for the service subscriber to work, your service (of course) needs to have the tag. 
+But it *also* needs an argument (or an argument to a "call") to be the service Psr\Container\ContainerInterface.
+Но почему же тогда в случае наличия тега "container.service_subscriber" предупрежд-е не возн-ет? - When the service subscriber system sees that argument
+(service Psr\Container\ContainerInterface), it knows that it should REPLACE IT WITH THE SERVICE LOCATOR (instead of passing you THE REAL CONTAINER).
+*** End Question 3 ***
+
+
+3. It's even possible not to set container explicitly, like in case 2, if we set "autowire" attribute. In this case $knpUIpsum argument 
+in IpsumApiController and $container argument in AbstractController are both autowired. Although some people claim, that autowiring in 
+the bundle is not a good idea, I'll just leave this here as an example of working code:
+
+<service id="knpu_lorem_ipsum.controller.ipsum_api_controller" class="KnpU\LoremIpsumBundle\Controller\IpsumApiController" public="true" autowire="true"/>
+
+See https://symfonycasts.com/screencast/symfony-bundle/routes-controllers , http://disq.us/p/2esl7kj
+-->

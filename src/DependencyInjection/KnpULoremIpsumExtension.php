@@ -12,6 +12,9 @@ class KnpULoremIpsumExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
+        // Опр-е $loader может идти и после опр-я $config, т.к. $config отвечает за конф-цию,
+        // а $loader - за загрузку сервисов, опр-ённых в services.xml', т.е. опр-е этих блоков
+        // не связано м/у собой.
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
         
