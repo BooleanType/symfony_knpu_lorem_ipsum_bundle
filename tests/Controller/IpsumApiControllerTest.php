@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use KnpU\LoremIpsumBundle\Event\FilterApiResponseEvent;
+use KnpU\LoremIpsumBundle\Event\KnpULoremIpsumEvents;
 
 class IpsumApiControllerTest extends TestCase
 {
@@ -18,13 +21,16 @@ class IpsumApiControllerTest extends TestCase
         $kernel = new KnpULoremIpsumControllerKernel();
         $client = new HttpKernelBrowser($kernel);
         $client->request('GET', '/api/');
+        // Or we can call it like we configured IpsumApiController::index() calling in "knpu_lorem_ipsum.yaml",
+        // (but in this case we also should change prefix in configureRoutes() below):
+        // $client->request('GET', '/api/ipsum/');
         
         var_dump($client->getResponse()->getContent());
         $this->assertSame(200, $client->getResponse()->getStatusCode());
     }
 }
 
-class KnpULoremIpsumControllerKernel extends Kernel
+class KnpULoremIpsumControllerKernel extends Kernel implements EventSubscriberInterface
 {
     use MicroKernelTrait;
     
@@ -51,6 +57,8 @@ class KnpULoremIpsumControllerKernel extends Kernel
     protected function configureRoutes(RoutingConfigurator $routes)
     {
         $routes->import(__DIR__.'/../../src/Resources/config/routes.xml')->prefix('/api');
+        // Or prefix is /api/ipsum, if we want the same config as in "knpu_lorem_ipsum.yaml":
+        // $routes->import(__DIR__.'/../../src/Resources/config/routes.xml')->prefix('/api/ipsum');
     }
     
     protected function configureContainer(ContainerConfigurator $c)
@@ -69,6 +77,21 @@ class KnpULoremIpsumControllerKernel extends Kernel
                 'router' => ['utf8' => true],
             ]
         );
+    }
+    
+    // Для тестир-я соб-я KnpULoremIpsumEvents::FILTER_API.
+    public static function getSubscribedEvents()
+    {
+        return [
+            KnpULoremIpsumEvents::FILTER_API => 'onFilterApi',
+        ];
+    }
+    
+    public function onFilterApi(FilterApiResponseEvent $event)
+    {
+        $data = $event->getData();
+        $data['message'] = 'Have a magical day!';
+        $event->setData($data);
     }
     
     public function getCacheDir()

@@ -22,12 +22,12 @@
             </call>
             <tag name="container.service_subscriber"/>
             <argument type="service" id="knpu_lorem_ipsum.knpu_ipsum"/>
+            <argument type="service" id="event_dispatcher" on-invalid="null"/>
         </service>
     </services>
 </container>
 
 <!--
-Just would like to notice 3 cases (I'm working on Symfony 5.2.2).
 1. If I don't extend IpsumApiController from AbstractController, the following conf in "services.xml" works for me:
 
 <service id="knpu_lorem_ipsum.controller.ipsum_api_controller" class="KnpU\LoremIpsumBundle\Controller\IpsumApiController" public="true">
@@ -51,18 +51,18 @@ So, the following conf works:
 
 - So, AbstractController by def gets access to a container, but it's not the MAIN container, it's actually a mini-container - 
 via a service subscriber (потому что AbstractController так реализован - он явл-ся сервис-сабскрайбером 
-(https://symfony.com/doc/current/service_container/service_subscribers_locators.html#including-services)). 
+(https://symfony.com/doc/current/service_container/service_subscribers_locators.html#including-services )). 
 About service subscribers here - https://symfonycasts.com/screencast/symfony4-doctrine/service-subscriber ; here about AbstractController -
 https://symfonycasts.com/screencast/deep-dive - it is a part of the "controller resolver" chapters.
 
-Так контроллер IpsumApiController наследует AbstractController, IpsumApiController тоже должен быть сервис-сабскрайбером. 
+Т.к. контроллер IpsumApiController наследует AbstractController, IpsumApiController тоже должен быть сервис-сабскрайбером. 
 Normally, to be a service subscriber, you must implement ServiceSubscriberInterface on your controller class and... you're done! AbstractController implements this... 
 so just by extending it, your controller is implementing it. So, what's the problem? In reality, if you want your service to be a "service subscriber", 
 you need to implement that interface AND tag your service with container.service_subscriber. In *normal application code*, we don't need to manually add 
 that tag because "autoconfigure" takes care of it for us: Symfony automatically adds that tag when it sees that our controller service implements the interface.
 
 However, in "bundle land", we don't use autowiring or autoconfiguration (to keep things explicit). And so, it's up to *you* to add this tag.
-Подтвержд-е тому - док-тация (https://symfony.com/doc/current/service_container/service_subscribers_locators.html#aliased-services):
+Подтвержд-е тому - док-тация (https://symfony.com/doc/current/service_container/service_subscribers_locators.html#aliased-services ):
 By default, autowiring is used to match a service type to a service from the service container. If you don’t use autowiring or need to add a non-traditional 
 service as a dependency, use the container.service_subscriber tag to map a service type to a service.
 

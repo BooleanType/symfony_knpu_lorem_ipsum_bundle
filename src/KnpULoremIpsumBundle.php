@@ -4,6 +4,9 @@ namespace KnpU\LoremIpsumBundle;
 
 use KnpU\LoremIpsumBundle\DependencyInjection\KnpULoremIpsumExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
+use KnpU\LoremIpsumBundle\Event\FilterApiResponseEvent;
 
 class KnpULoremIpsumBundle extends Bundle
 {
@@ -30,5 +33,12 @@ class KnpULoremIpsumBundle extends Bundle
             $this->extension = new KnpULoremIpsumExtension();
         }
         return $this->extension;
+    }
+    
+    public function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new AddEventAliasesPass([
+            FilterApiResponseEvent::class => 'knpu_lorem_ipsum.filter_api',
+        ]));
     }
 }
