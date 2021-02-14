@@ -7,13 +7,15 @@
     <services>
         <!-- Explanation: https://symfony.com/doc/current/service_container/autowiring.html#using-aliases-to-enable-autowiring -->
         <service id="knpu_lorem_ipsum.knpu_ipsum" class="KnpU\LoremIpsumBundle\KnpUIpsum" public="true">
-            <argument type="service" id="knpu_lorem_ipsum.word_provider" />
+            <argument type="tagged_iterator" tag="knpu_ipsum_word_provider" /> <!-- filled in via a compiler pass -->
             <argument /> <!-- unicorns_are_real -->
             <argument /> <!-- min_sunshine -->
         </service>
         <service id="KnpU\LoremIpsumBundle\KnpUIpsum" alias="knpu_lorem_ipsum.knpu_ipsum" public="false" />
         
-        <service id="knpu_lorem_ipsum.knpu_word_provider" class="KnpU\LoremIpsumBundle\KnpUWordProvider" />
+        <service id="knpu_lorem_ipsum.knpu_word_provider" class="KnpU\LoremIpsumBundle\KnpUWordProvider">
+            <tag name="knpu_ipsum_word_provider" />
+        </service>
         <service id="knpu_lorem_ipsum.word_provider" alias="knpu_lorem_ipsum.knpu_word_provider" public="false" />
         
         <service id="knpu_lorem_ipsum.controller.ipsum_api_controller" class="KnpU\LoremIpsumBundle\Controller\IpsumApiController" public="true">

@@ -7,6 +7,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use KnpU\LoremIpsumBundle\Event\FilterApiResponseEvent;
+use KnpU\LoremIpsumBundle\DependencyInjection\Compiler\WordProviderCompilerPass;
 
 class KnpULoremIpsumBundle extends Bundle
 {
@@ -37,8 +38,11 @@ class KnpULoremIpsumBundle extends Bundle
     
     public function build(ContainerBuilder $container)
     {
+        // See src/EventSubscriber/AddMessageToIpsumApiSubscriber::getSubscribedEvents().
         $container->addCompilerPass(new AddEventAliasesPass([
             FilterApiResponseEvent::class => 'knpu_lorem_ipsum.filter_api',
         ]));
+        
+        $container->addCompilerPass(new WordProviderCompilerPass());
     }
 }

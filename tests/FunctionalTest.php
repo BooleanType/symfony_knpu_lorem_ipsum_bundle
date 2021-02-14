@@ -76,7 +76,7 @@ class KnpULoremIpsumTestingKernel extends Kernel
     
     public function getCacheDir()
     {
-        // Cur. dir here is 'D:\\server\\www\\LoremIpsumBundle' (check by getcwd()),
+        // Cur. dir here is 'D:/server/www/LoremIpsumBundle' (check by getcwd()),
         // when we run test in console:
         //      $ D:\server\www\LoremIpsumBundle>vendor\bin\simple-phpunit
         // So, not '../var/cache/...', but 'var/cache/...' or './var/cache/...'.
