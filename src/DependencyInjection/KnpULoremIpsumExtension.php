@@ -30,6 +30,12 @@ class KnpULoremIpsumExtension extends Extension
         
         // pass the service id. This returns a Definition object, which holds 
         // the service's class name, arguments and a bunch of other stuff. 
+        // Service definitions are the instructions describing how the container should build a service. 
+        // They are not the actual services used by your applications. The container will create the actual class 
+        // instances based on the configuration in the definition.
+        // Normally, you would use YAML, XML or PHP to describe the service definitions. But if you’re doing advanced 
+        // things with the service container, like working with a Compiler Pass or creating a Dependency Injection Extension, 
+        // you may need to work directly with the Definition objects that define how a service will be instantiated.
         $definition = $container->getDefinition('knpu_lorem_ipsum.knpu_ipsum');
 
 // Commented out because of compiler pass implementation (see https://symfonycasts.com/screencast/symfony-bundle/tags-compiler-pass )
@@ -52,6 +58,19 @@ class KnpULoremIpsumExtension extends Extension
 //                ->addTag('knpu_ipsum_word_provider')
 //            ;
 //        }
+        
+        // See http://disq.us/p/2f6i3sp for 'use_default_provider' option explanation.
+        if ($config['use_default_provider']) {
+            $knpuWordProviderDefinition = $container->getDefinition('knpu_lorem_ipsum.knpu_word_provider');
+            $knpuWordProviderDefinition->addTag('knpu_ipsum_word_provider');
+            
+//            $class = $knpuWordProviderDefinition->getClass();
+//            $container
+//                ->registerForAutoconfiguration($class)
+//                ->addTag('knpu_ipsum_word_provider')
+//            ;
+        }
+        
         $definition->replaceArgument(1, $config['unicorns_are_real']);
         $definition->replaceArgument(2, $config['min_sunshine']);
         
