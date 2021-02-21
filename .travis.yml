@@ -7,7 +7,6 @@ cache:
 
 env:
     global:
-        - PHPUNIT_FLAGS="-v"
         - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
 
 matrix:
@@ -33,15 +32,17 @@ before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
     - if ! [ -v "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
+    # Prevent '/home/travis/build/BooleanType/symfony_knpu_lorem_ipsum_bundle/composer.phar: Permission denied'
+    # https://nofluffjuststuff.com/blog/brian_kotek/2013/06/grails_travis_ci_and_permission_denied
     - chmod +x composer.phar
 
 install:
     - php composer.phar update
     - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
-    - ./vendor/bin/simple-phpunit install
+    - ./vendor/bin/simple-phpunit
 
 script:
     - composer validate --strict --no-check-lock
     # simple-phpunit is the PHPUnit wrapper provided by the PHPUnit Bridge component and
     # it helps with testing legacy code and deprecations (composer require symfony/phpunit-bridge)
-    - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
+    - ./vendor/bin/simple-phpunit
