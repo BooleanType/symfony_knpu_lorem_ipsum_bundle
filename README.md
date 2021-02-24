@@ -74,7 +74,7 @@ I've forked from https://github.com/symfony/recipes-contrib . Next I git-cloned 
 - https://flex.symfony.com/r/github.com/symfony/recipes-contrib/1099
 <br>
 
-<b>If instructions for bundle become anavailable by link above, here is the instruction:</b>
+<b>If instructions for bundle become anavailable by link above, here is the copy:</b>
 
 <h6>How to test these changes in your application</h6>
 
