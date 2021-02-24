@@ -8,11 +8,11 @@ https://packagist.org/packages/boolean-type/lorem-ipsum-bundle
 
 See, how it works:
 ------------------
-  - in browser:
-- http://first-project/article/show
-- http://first-project/api/ipsum/
-  - in console:
-- `D:\server\www\LoremIpsumBundle>vendor\bin\simple-phpunit     # Run the tests.`
+- in browser:
+  - http://first-project/article/show
+  - http://first-project/api/ipsum/
+- in console:
+  - `D:\server\www\LoremIpsumBundle>vendor\bin\simple-phpunit     # Run the tests.`
 
 
 How to make changes in bundle locally?
