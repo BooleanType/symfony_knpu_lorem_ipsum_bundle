@@ -1,7 +1,13 @@
+Theory:
+-------
 https://symfonycasts.com/screencast/symfony-bundle
 
-Usage
------
+My bundle on packagist:
+-----------------------
+https://packagist.org/packages/boolean-type/lorem-ipsum-bundle
+
+See, how it works:
+------------------
   - in browser:
 http://first-project/article/show
 http://first-project/api/ipsum/
@@ -30,3 +36,66 @@ Changes, made in `vendor` folder, for bundle, installed from packagist (https://
 3. `composer require boolean-type/lorem-ipsum-bundle:*@dev`
 
 <h5>Switch from local version to packagist:</h5>
+
+1. In <i>app's</i> `composer.json` delete this:
+<pre>
+"repositories": [
+    {
+        "type": "path",
+        "url": "../LoremIpsumBundle"
+     }
+]
+</pre>
+
+2. `composer remove boolean-type/lorem-ipsum-bundle`
+
+3. `composer req "boolean-type/lorem-ipsum-bundle:^1.0"`
+
+Recipe
+------
+
+https://github.com/symfony/recipes-contrib/pull/1099
+
+<h3>Clear composer cache before installation:</h3>
+
+`composer clearcache`
+
+<h3>Installation</h3>
+
+<b>Theory:</b>
+- http://disq.us/p/2f9zjx5
+- https://stackoverflow.com/a/58595941/4695280
+
+<b>Instructions for the recipe, created by me for this bundle:</b>
+- https://flex.symfony.com/r/github.com/symfony/recipes-contrib/1099
+<br>
+
+<b>If instructions for bundle become anavailable by link above, here is the instruction:</b>
+
+<h6>How to test these changes in your application</h6>
+
+<b>Step 0.</b> Allow installing "contrib" recipes in your application:
+
+`composer config extra.symfony.allow-contrib true`
+
+<b>Step 1.</b> Define the `SYMFONY_ENDPOINT` environment variable:
+
+<pre>
+# On *nix and Mac
+export SYMFONY_ENDPOINT=https://flex.symfony.com/r/github.com/symfony/recipes-contrib/1099
+# On Windows
+SET SYMFONY_ENDPOINT=https://flex.symfony.com/r/github.com/symfony/recipes-contrib/1099
+</pre>
+
+<b>Step 2.</b> Install the package(s) related to this recipe:
+
+`composer req "boolean-type/lorem-ipsum-bundle:^1.0"`
+
+<b>Step 3.</b> Don't forget to unset the `SYMFONY_ENDPOINT` environment variable when done:
+<pre>
+# On *nix and Mac
+unset SYMFONY_ENDPOINT
+# On Windows
+SET SYMFONY_ENDPOINT=
+</pre>
+
