@@ -63,7 +63,12 @@ class KnpULoremIpsumExtension extends Extension
         if ($config['use_default_provider']) {
             $knpuWordProviderDefinition = $container->getDefinition('knpu_lorem_ipsum.knpu_word_provider');
             $knpuWordProviderDefinition->addTag('knpu_ipsum_word_provider');
-            
+
+// Why code below doesn't work (ie, doesn't apply tag for 'knpu_lorem_ipsum.knpu_word_provider')?
+// That code says: “Find all services that match the class KnpUWordProvider and automatically tag them with knpu_ipsum_word_provider”. 
+// That sounds like it should work, but it will only apply to services that have “autoconfigure true”, which our bundle’s services don’t. 
+// And that’s ok and on purpose :). It’s better for our bundle to do things explicitly, which is what we did by specifically 
+// adding the tag to the service (see code above). See discussion about it here: http://disq.us/p/2fcy7y4 .
 //            $class = $knpuWordProviderDefinition->getClass();
 //            $container
 //                ->registerForAutoconfiguration($class)
