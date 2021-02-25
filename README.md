@@ -54,6 +54,8 @@ Changes, made in `vendor` folder, for bundle, installed from packagist (https://
 Recipe
 ------
 
+This recipe will work only for my bundle on packagist, not for this, local version.
+
 https://github.com/symfony/recipes-contrib/pull/1099
 
 <h3>How did I created recipe, which is accessible in symfony/recipes-contrib?</h3>
