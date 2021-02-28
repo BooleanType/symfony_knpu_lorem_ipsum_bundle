@@ -39,7 +39,7 @@ before_install:
 
 install:
     - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
-    - cd ./vendor/symfony/phpunit-bridge/bin
+    - cd ./vendor/bin/.phpunit
     - ls -a 
     - ./vendor/bin/simple-phpunit install
 
