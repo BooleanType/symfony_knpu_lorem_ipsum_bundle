@@ -17,6 +17,7 @@ before_install:
     - chmod +x composer.phar
     - composer self-update
 
+
 install: composer update --prefer-dist $COMPOSER_FLAGS
 
 script:
