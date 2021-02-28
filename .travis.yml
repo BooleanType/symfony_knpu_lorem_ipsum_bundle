@@ -41,7 +41,7 @@ install:
     - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
     - cd vendor/bin
     - ls -a
-    - simple-phpunit
+    - ./simple-phpunit
     - cd ../..
     - ls -a
 
