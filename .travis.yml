@@ -41,8 +41,8 @@ install:
     - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
     - cd vendor/bin
     - ./simple-phpunit
-    - cd ../..
-    - ls -a
+#    - cd ../..
+#    - ls -a
 
 script:
     - composer validate --strict --no-check-lock
