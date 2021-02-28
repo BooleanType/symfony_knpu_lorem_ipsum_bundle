@@ -40,9 +40,9 @@ before_install:
 install:
     - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
     - pwd
-    - test -d /vendor/bin: test -d /vendor/bin && echo "/vendor/bin exist" || echo "/vendor/bin does not exist"
-    - test -d /vendor/bin/.phpunit: test -d /vendor/bin/.phpunit && echo "/vendor/bin/.phpunit exist" || echo "/vendor/bin/.phpunit does not exist"
-    - test -d /vendor/bin/phpunit: test -d /vendor/bin/phpunit && echo "/vendor/bin/phpunit exist" || echo "/vendor/bin/phpunit does not exist"
+    - test -d ./vendor/bin: test -d /vendor/bin && echo "/vendor/bin exist" || echo "/vendor/bin does not exist"
+    - test -d ./vendor/bin/.phpunit: test -d /vendor/bin/.phpunit && echo "/vendor/bin/.phpunit exist" || echo "/vendor/bin/.phpunit does not exist"
+    - test -d ./vendor/bin/phpunit: test -d /vendor/bin/phpunit && echo "/vendor/bin/phpunit exist" || echo "/vendor/bin/phpunit does not exist"
     - ./vendor/bin/.phpunit/simple-phpunit install
 
 script:
