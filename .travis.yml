@@ -28,6 +28,5 @@ before_install:
 
 install: composer update --prefer-dist $COMPOSER_FLAGS
 
-
 script:
     - ./vendor/bin/simple-phpunit
