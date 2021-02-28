@@ -24,7 +24,6 @@ before_install:
     # https://nofluffjuststuff.com/blog/brian_kotek/2013/06/grails_travis_ci_and_permission_denied
     - chmod +x composer.phar
     - composer self-update
-    - composer self-update
 
 install: composer update --prefer-dist $COMPOSER_FLAGS
 
