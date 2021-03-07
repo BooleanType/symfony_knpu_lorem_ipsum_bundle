@@ -1,24 +1,51 @@
 language: php
-
 sudo: false
-
 cache:
     directories:
         - $HOME/.composer/cache/files
+        - $HOME/symfony-bridge/.phpunit
+
+env:
+    global:
+        - PHPUNIT_FLAGS="-v"
+        - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
 
 matrix:
+    fast_finish: true
     include:
+          # Minimum supported dependencies with the latest and oldest PHP version       
         - php: 7.4
-          env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
+          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="max[direct]=0"
+        
+          # Test the latest stable release
+        - php: 7.4
+          env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text"
+
+          # Latest commit to master
+        - php: 7.4
+          env: STABILITY="dev"
+
+    allow_failures:
+          # Dev-master is allowed to fail.
+        - env: STABILITY="dev"
 
 before_install:
-	# Prevent '/home/travis/build/BooleanType/symfony_knpu_lorem_ipsum_bundle/composer.phar: Permission denied'
+    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
+    - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
+    - if ! [ -v "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
+    # Prevent '/home/travis/build/BooleanType/symfony_knpu_lorem_ipsum_bundle/composer.phar: Permission denied'
     # https://nofluffjuststuff.com/blog/brian_kotek/2013/06/grails_travis_ci_and_permission_denied
     - chmod +x composer.phar
     - composer self-update
 
-
-install: composer update --prefer-dist $COMPOSER_FLAGS
+install:
+    - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
+    - DIR="./vendor/bin/.phpunit" if [ -d "$DIR" ]; then echo "bin/.phpunit exists" fi;
+    - ./vendor/bin/simple-phpunit install
+#    - ls -a
 
 script:
-    - ./vendor/bin/simple-phpunit
+#    - composer validate --strict --no-check-lock
+    # simple-phpunit is the PHPUnit wrapper provided by the PHPUnit Bridge component and
+    # it helps with testing legacy code and deprecations (composer require symfony/phpunit-bridge)
+    - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS

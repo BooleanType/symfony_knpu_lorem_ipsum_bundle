@@ -85,6 +85,13 @@ class KnpULoremIpsumExtension extends Extension
         ;
     }
     
+    /**
+     * When you create an extension class, Symfony automatically calculates a "root" config key for it. In our case, it calculated knp_u_lorem_ipsum... 
+     * it generated this based on our class name. I'd rather have knpu_lorem_ipsum.
+     * Now we can use this alias as root key in app's 'knpu_lorem_ipsum.yaml'.
+     * For 'knpu_lorem_ipsum.yaml', specifying the alias for the extension as a key, will mean that those values are passed to the Extension’s load() method.
+     * @return string
+     */
     public function getAlias()
     {
         return 'knpu_lorem_ipsum';
