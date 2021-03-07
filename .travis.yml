@@ -40,7 +40,8 @@ before_install:
 
 install:
     - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
-    - DIR="./vendor/bin/.phpunit" if [ -d "$DIR" ]; then echo "bin/.phpunit exists" fi;
+    - DIR = "./vendor/bin/.phpunit";
+    - if [ -d "$DIR" ]; then echo "bin/.phpunit exists" fi;
     - ./vendor/bin/simple-phpunit install
 #    - ls -a
 
