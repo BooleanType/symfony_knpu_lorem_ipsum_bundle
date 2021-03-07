@@ -39,12 +39,22 @@ before_install:
     - composer self-update
 
 install:
-    - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
+    # Here symfony/phpunit-bridge (v5.2.0) is installed:
+    - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction 
     - cd ./vendor/bin/
+    # For ls -a I see the following: .  ..  simple-phpunit  var-dump-server
+    # There is no phpunit file - only simple-phpunit
+    - ls -a
+    # Return to source folder:
+    - cd ../..
+    # Try to install phpunit with simple-phpunit file. See a lot of warnings like 
+    # "No such file or directory (errno 2) in /home/travis/build/BooleanType/symfony_knpu_lorem_ipsum_bundle/vendor/symfony/phpunit-bridge/bin/simple-phpunit.php on line 217"
+    - ./vendor/bin/simple-phpunit install
+    # Want to see if some files/dirs have been occured after command above:
+    - cd ./vendor/bin/
+    # 
     - ls -a
     - cd ../..
-    - ./vendor/bin/simple-phpunit install
-#    - ls -a
 
 script:
 #    - composer validate --strict --no-check-lock
