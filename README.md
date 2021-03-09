@@ -23,7 +23,7 @@ Changes, made in `vendor` folder, for bundle, installed from packagist (https://
 
 1. `composer remove boolean-type/lorem-ipsum-bundle`
 
-2. In <i>app's</i> `composer.json` add this:
+2. In <i>app's</i> `composer.json` add this (`"../LoremIpsumBundle"` is the path, where my bundle locally exists):
 <pre>
 "repositories": [
     {
@@ -49,7 +49,7 @@ Changes, made in `vendor` folder, for bundle, installed from packagist (https://
 
 2. `composer remove boolean-type/lorem-ipsum-bundle`
 
-3. `composer req "boolean-type/lorem-ipsum-bundle:^1.0"`
+3. `composer req "boolean-type/lorem-ipsum-bundle:^1.0"` (`1.0` is bundle <b>current</b> version)
 
 Recipe
 ------
