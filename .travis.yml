@@ -13,26 +13,38 @@ env:
 matrix:
     fast_finish: true
     include:
-        - php: 7.2
-        - php: 7.3
-          env: deps=low
+          # Minimum supported dependencies with the latest and oldest PHP version       
         - php: 7.4
+          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="max[direct]=0"
+        
+          # Test the latest stable release
+        - php: 7.4
+          env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text"
+
+          # Latest commit to master
+        - php: 7.4
+          env: STABILITY="dev"
+
+    allow_failures:
+          # Dev-master is allowed to fail.
+        - env: STABILITY="dev"
 
 before_install:
-    - phpenv config-rm xdebug.ini || true
-    - composer global require --no-progress --no-scripts --no-plugins symfony/flex dev-main
+    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
+    - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
+    - if ! [ -v "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
+    # Prevent '/home/travis/build/BooleanType/symfony_knpu_lorem_ipsum_bundle/composer.phar: Permission denied'
+    # https://nofluffjuststuff.com/blog/brian_kotek/2013/06/grails_travis_ci_and_permission_denied
+    - chmod +x composer.phar
+    - composer self-update
 
 install:
-    - |
-        if [[ $deps = low ]]; then
-            export SYMFONY_DEPRECATIONS_HELPER=weak
-            composer update --prefer-dist --prefer-lowest --prefer-stable
-        else
-            composer update --prefer-dist
-        fi
-    - chmod +x composer.phar
+    # Here symfony/phpunit-bridge (v5.2.0) is installed:
+    - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction 
     - ./vendor/bin/simple-phpunit install
 
 script:
-    - composer validate --strict --no-check-lock
+#    - composer validate --strict --no-check-lock
+    # simple-phpunit is the PHPUnit wrapper provided by the PHPUnit Bridge component and
+    # it helps with testing legacy code and deprecations (composer require symfony/phpunit-bridge)
     - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
