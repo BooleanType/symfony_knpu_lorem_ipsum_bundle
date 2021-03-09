@@ -105,3 +105,6 @@ unset SYMFONY_ENDPOINT
 SET SYMFONY_ENDPOINT=
 </pre>
 
+Travis CI builds
+----------------
+https://travis-ci.com/github/BooleanType/symfony_knpu_lorem_ipsum_bundle/builds
