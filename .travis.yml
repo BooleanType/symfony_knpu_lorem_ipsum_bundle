@@ -44,10 +44,11 @@ install:
     - cd ./vendor/bin/
     - ls -a
     - ./simple-phpunit install
+    - cd ../..
 
 script:
 #    - composer validate --strict --no-check-lock
     # simple-phpunit is the PHPUnit wrapper provided by the PHPUnit Bridge component and
     # it helps with testing legacy code and deprecations (composer require symfony/phpunit-bridge)
-    - cd ../..
+#    - cd ../..
     - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
