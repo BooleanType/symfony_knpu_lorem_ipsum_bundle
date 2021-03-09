@@ -44,10 +44,11 @@ install:
     - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction 
     - cd ./vendor/bin/
     - ./simple-phpunit install
+    # Command below can be moved to 'script' section, doesn't matter. The most important,
+    # that this command should be BEFORE '- ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS'.
     - cd ../..
 
 script:
     # simple-phpunit is the PHPUnit wrapper provided by the PHPUnit Bridge component and
     # it helps with testing legacy code and deprecations (composer require symfony/phpunit-bridge)
-    
     - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
