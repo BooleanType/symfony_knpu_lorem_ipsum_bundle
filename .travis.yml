@@ -9,6 +9,7 @@ env:
     global:
         - PHPUNIT_FLAGS="-v"
         - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
+        - XDEBUG_MODE=coverage
 
 matrix:
     fast_finish: true
