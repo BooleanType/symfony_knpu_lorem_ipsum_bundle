@@ -90,7 +90,7 @@ class KnpULoremIpsumControllerKernel extends Kernel implements EventSubscriberIn
     public function onFilterApi(FilterApiResponseEvent $event)
     {
         $data = $event->getData();
-        $data['message'] = 'Have a magical day!';
+        $data['message'] = 'Have a magical day (generated from test, no $_ENV vars from recipe here)!';
         $event->setData($data);
     }
     
