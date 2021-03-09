@@ -41,6 +41,7 @@ before_install:
 install:
     # Here symfony/phpunit-bridge (v5.2.0) is installed:
     - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction 
+    - cd ./vendor/bin/
     - ./vendor/bin/simple-phpunit install
 
 script:
