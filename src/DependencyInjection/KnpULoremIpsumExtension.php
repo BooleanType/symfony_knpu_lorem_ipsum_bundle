@@ -11,6 +11,14 @@ use KnpU\LoremIpsumBundle\WordProviderInterface;
 
 class KnpULoremIpsumExtension extends Extension
 {
+    /**
+     * In the load() method, all services and parameters related to this extension will be loaded. This method doesn’t get 
+     * the actual container instance, but a copy. This container only has the parameters from the actual container. 
+     * After loading the services and parameters, the copy will be merged into the actual container, to ensure all services 
+     * and parameters are also added to the actual container.
+     * @param array $configs
+     * @param ContainerBuilder $container
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         // Опр-е $loader может идти и после опр-я $config, т.к. $config отвечает за конф-цию,
@@ -28,7 +36,7 @@ class KnpULoremIpsumExtension extends Extension
         // pass the configuration object and the original, raw array of $configs.
         $config = $this->processConfiguration($configuration, $configs);
         
-        // pass the service id. This returns a Definition object, which holds 
+        // 'knpu_lorem_ipsum.knpu_ipsum' is the service id. This returns a Definition object, which holds 
         // the service's class name, arguments and a bunch of other stuff. 
         // Service definitions are the instructions describing how the container should build a service. 
         // They are not the actual services used by your applications. The container will create the actual class 
@@ -86,6 +94,7 @@ class KnpULoremIpsumExtension extends Extension
     }
     
     /**
+     * The DI alias is the name used to refer to the bundle in the container (e.g. in the config/packages/ files).
      * When you create an extension class, Symfony automatically calculates a "root" config key for it. In our case, it calculated knp_u_lorem_ipsum... 
      * it generated this based on our class name. I'd rather have knpu_lorem_ipsum.
      * Now we can use this alias as root key in app's 'knpu_lorem_ipsum.yaml'.
