@@ -73,7 +73,7 @@ https://github.com/symfony/recipes-contrib/pull/1099
 
 <h3>How did I created recipe, which is accessible in symfony/recipes-contrib?</h3>
 
-I've forked from https://github.com/symfony/recipes-contrib . Next I git-cloned this repo to my disc and created new folder with my recipe. Then I've created a pull request from a fork, as explained here - https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork . From this time all changed, that I pushed to my fork, automatically pushed to created pull request in symfony/recipes-contrib. After successful validation "View deployment" link appeared. This links contains instructions, described below.
+I've forked from https://github.com/symfony/recipes-contrib . Next I git-cloned this repo to my disc and created new folder with my recipe. Then I've created a pull request from a fork, as explained here - https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork . From this time all changes, that I pushed to my fork, automatically pushed to created pull request in symfony/recipes-contrib. After successful validation "View deployment" link appeared. This links contains instructions, described below.
 
 <h3>Clear composer cache before installation:</h3>
 
