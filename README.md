@@ -1,6 +1,19 @@
 Theory:
 -------
-https://symfonycasts.com/screencast/symfony-bundle
+- making bundle from the scratch:
+  - https://symfonycasts.com/screencast/symfony-bundle
+- Symfony docs:
+  - https://symfony.com/doc/current/service_container.html
+  - https://symfony.com/doc/current/components/dependency_injection.html
+  - https://symfony.com/doc/current/components/dependency_injection/compilation.html
+  - https://symfony.com/doc/current/service_container/compiler_passes.html
+  - https://symfony.com/doc/current/bundles.html
+  - https://symfony.com/doc/current/bundles/extension.html
+  - https://symfony.com/doc/current/service_container/definitions.html
+  - https://symfony.com/doc/current/bundles/configuration.html
+  - https://symfony.com/doc/current/configuration/using_parameters_in_dic.html
+  - https://symfony.com/doc/current/bundles/prepend_extension.html
+  - https://symfony.com/doc/current/bundles/best_practices.html
 
 My bundle on packagist:
 -----------------------
