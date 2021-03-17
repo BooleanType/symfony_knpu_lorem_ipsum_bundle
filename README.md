@@ -14,6 +14,9 @@ Theory:
   - https://symfony.com/doc/current/configuration/using_parameters_in_dic.html
   - https://symfony.com/doc/current/bundles/prepend_extension.html
   - https://symfony.com/doc/current/bundles/best_practices.html
+- @TOREAD:
+  - https://habr.com/ru/post/498134/
+  - https://habr.com/ru/post/419451/
 
 My bundle on packagist:
 -----------------------
